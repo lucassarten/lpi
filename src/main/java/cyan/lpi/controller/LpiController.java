@@ -16,22 +16,25 @@ import cyan.lpi.service.Service;
 public class LpiController {
     Service service = new Service();
 
-    @GetMapping(path = "/{service}/{command}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> date(@PathVariable("service") String service, @PathVariable("command") String command,
+    // Standard call to a module with a command
+    @GetMapping(path = "/{module}/{command}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> date(@PathVariable("module") String module, @PathVariable("command") String command,
             @RequestParam Map<String, String> params) {
-        String response = this.service.run(service, command, params);
+        String response = this.service.run(module, command, params);
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{service}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> date(@PathVariable("service") String service,
+    // Call to a module without a command
+    @GetMapping(path = "/{module}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> date(@PathVariable("module") String module,
             @RequestParam Map<String, String> params) {
-        String response = this.service.run(service, "", params);
+        String response = this.service.run(module, "", params);
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
+    // Call to neither a module nor a command
     @GetMapping(path = "//", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> date(
             @RequestParam Map<String, String> params) {
