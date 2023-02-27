@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Locale;
 import java.util.Map;
 
@@ -51,6 +53,37 @@ public class Date implements Module {
         return Instant.parse(date)
                 .atZone(ZoneId.of(from))
                 .withZoneSameInstant(ZoneId.of(to))
+                .format(
+                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+                                .withLocale(Locale.ENGLISH));
+    }
+
+    /**
+     * Get the current date and time in NZT
+     * 
+     * @param params
+     * @return
+     */
+    @CommandDef(desc = "get the current date and time in NZT")
+    public static String now(Map<String, String> params) {
+        return Instant.now()
+                .atZone(ZoneId.of("Pacific/Auckland"))
+                .format(
+                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+                                .withLocale(Locale.ENGLISH));
+    }
+
+    @CommandDef(desc = "Add time to a date", params = { "<date>", "<addition>", "<unit>" })
+    public static String add(Map<String, String> params) {
+        String date = params.get("0");
+        String addition = params.get("1");
+        String unit = params.get("2");
+        unit = unit.toUpperCase();
+        ChronoUnit temporalUnit = ChronoUnit.valueOf(unit);
+        // add addition to date
+        return Instant.parse(date)
+                .plus(Long.parseLong(addition), temporalUnit)
+                .atZone(ZoneId.of("Pacific/Auckland"))
                 .format(
                         DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
                                 .withLocale(Locale.ENGLISH));

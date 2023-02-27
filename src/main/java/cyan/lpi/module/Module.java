@@ -48,8 +48,10 @@ public interface Module {
             Method command = this.getClass().getMethod(commandName, Map.class);
             // get the @CommandDef annotation
             CommandDef commandDef = command.getAnnotation(CommandDef.class);
+            String params = commandDef.params().length == 0 ? ""
+                    : Arrays.toString(commandDef.params());
             // build help string
-            return commandName + " " + Arrays.toString(commandDef.params()) + " - "
+            return commandName + " " + params + " - "
                     + commandDef.desc();
         } catch (Exception e) {
             e.printStackTrace();
