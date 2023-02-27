@@ -47,16 +47,13 @@ public class Service {
                 try {
                     return (String) commandDef.invoke(moduleDef, params);
                 } catch (Exception e) {
-                    e.printStackTrace();
                     return "Invalid parameters\n" + moduleDef.help(command);
                 }
             } catch (Exception e) {
                 // if the command does not exist, run the help command
-                e.printStackTrace();
                 return moduleDef.help();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             // if the module does not exist, list all modules
             return listModules();
         }
@@ -84,6 +81,8 @@ public class Service {
                 e.printStackTrace();
             }
         }
+        // remove trailing newline
+        sb = sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 }

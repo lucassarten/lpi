@@ -17,7 +17,7 @@ public class LpiController {
     Service service = new Service();
 
     // Standard call to a module with a command
-    @GetMapping(path = "/{module}/{command}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/api/{module}/{command}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> date(@PathVariable("module") String module, @PathVariable("command") String command,
             @RequestParam Map<String, String> params) {
         String response = this.service.run(module, command, params);
@@ -26,7 +26,7 @@ public class LpiController {
     }
 
     // Call to a module without a command
-    @GetMapping(path = "/{module}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/api/{module}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> date(@PathVariable("module") String module,
             @RequestParam Map<String, String> params) {
         String response = this.service.run(module, "", params);
@@ -35,7 +35,7 @@ public class LpiController {
     }
 
     // Call to neither a module nor a command
-    @GetMapping(path = "//", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = { "/api","/api/", "/api//" }, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> date(
             @RequestParam Map<String, String> params) {
         String response = this.service.run("", "", params);

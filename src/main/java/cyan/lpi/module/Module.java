@@ -73,6 +73,8 @@ public interface Module {
                 sb.append(this.help(command.getName()) + "\n");
             }
         }
+        // remove trailing newline
+        sb = sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 }
