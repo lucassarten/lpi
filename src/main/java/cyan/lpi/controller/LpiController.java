@@ -35,7 +35,7 @@ public class LpiController {
     }
 
     // Call to neither a module nor a command
-    @GetMapping(path = { "/api","/api/", "/api//" }, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = { "/api", "/api/", "/api//" }, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> date(
             @RequestParam Map<String, String> params) {
         String response = this.service.run("", "", params);

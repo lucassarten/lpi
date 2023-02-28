@@ -38,7 +38,7 @@ public class Service {
                 // validate parameters
                 if (commandParams.length != params.size()) {
                     // no parameters given, run the help command
-                    if(params.isEmpty()) {
+                    if (params.isEmpty()) {
                         return moduleDef.help(command);
                     }
                     return "Invalid parameters\n" + moduleDef.help(command);

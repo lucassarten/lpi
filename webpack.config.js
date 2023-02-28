@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-    entry: './src/main/ui/app.js',
+    entry: './src/main/ui/dashboard.js',
     devtool: 'sourcemaps',
     cache: true,
     mode: 'development',
@@ -20,7 +20,11 @@ module.exports = {
                         presets: ["@babel/preset-env", "@babel/preset-react"]
                     }
                 }]
+            },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
             }
-        ]
+        ],
     }
 };
