@@ -85,9 +85,16 @@ const WidgetLayout = () => {
     setWidgetArray(tempArray);
   };
 
+  const handleApiKey = () => {
+    const val = document.getElementById("apiKeyInput").value;
+    document.cookie = "x-api-key=" + val;
+  }
+
   return (
     <div>
       <button onClick={() => handleAdd()}>Add Widget</button>
+      <input type="password" id="apiKeyInput" placeholder="API Key" />
+      <button onClick={() => handleApiKey()}>Save</button>
 
       <ResponsiveReactGridLayout
         onLayoutChange={handleModify}
