@@ -47,6 +47,7 @@ public class Service {
                 try {
                     return (String) commandDef.invoke(moduleDef, params);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     return "Invalid parameters\n" + moduleDef.help(command);
                 }
             } catch (Exception e) {
