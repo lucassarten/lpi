@@ -28,7 +28,7 @@ public final class Key implements Module {
     public static String list(Map<String, String> params) {
         StringBuilder sb = new StringBuilder();
         for (ApiKey key : ApiKeyRepository.findAll()) {
-            sb.append(key.getId() + " " + key.getApi_key() + " " + key.getSecret_key() + "\n");
+            sb.append(key.getId() + " " + key.getApiKey() + " " + key.getSecretKey() + "\n");
         }
         // remove trailing newline
         sb = sb.deleteCharAt(sb.length() - 1);

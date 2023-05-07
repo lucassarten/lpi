@@ -1,5 +1,7 @@
 package cyan.lpi.repository;
 
+import cyan.lpi.auth.ApiKeyAuthenticationProvider;
+import cyan.lpi.module.Auth;
 import cyan.lpi.module.Key;
 import cyan.lpi.service.Service;
 
@@ -28,5 +30,7 @@ public class RepositoryContextConfiguration {
     @PostConstruct
     public void init() {
         Key.init(ApiKeyRepository);
+        Auth.init(ApiKeyRepository);
+        ApiKeyAuthenticationProvider.init(ApiKeyRepository);
     }
 }

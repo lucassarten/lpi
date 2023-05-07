@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import ReactWeather, { useOpenWeather } from 'react-open-weather';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import "./Dashboard.css";
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -12,13 +15,29 @@ const WidgetLayout = () => {
     { i: "weather", x: 2, y: 2, w: 2, h: 2 },
   ]);
 
+  const { data, isLoading, errorMessage } = useOpenWeather({
+    key: '81b4120979184656cda86aba07b9bf83',
+    lat: '-41.287',
+    lon: '174.776',
+    lang: 'en',
+    unit: 'metric', // values are (metric, standard, imperial)
+  });
+
   const generateWidgetContent = (i) => {
     console.log(i);
     switch (i) {
       case "time":
         return <div>Some widget here</div>;
       case "weather":
-        return <div>Weather perhaps?</div>;
+        return <ReactWeather
+          isLoading={isLoading}
+          errorMessage={errorMessage}
+          data={data}
+          lang="en"
+          locationLabel="Wellington"
+          unitsLabels={{ temperature: 'C', windSpeed: 'Km/h' }}
+          showForecast
+        />;
       default:
         return <div>New widget</div>;
     }
@@ -37,9 +56,9 @@ const WidgetLayout = () => {
             w: widget?.w,
             h: widget?.h,
             i: widget.i,
-            minW: 2,
+            minW: 1,
+            minH: 1,
             maxW: Infinity,
-            minH: 2,
             maxH: Infinity,
             isDraggable: true,
             isResizable: true,
@@ -51,7 +70,7 @@ const WidgetLayout = () => {
           >
             x
           </button>
-          <div className="widget-container" id={widget.i}>
+          <div className="widget-container">
             {generateWidgetContent(widget.i)}
           </div>
         </div>
@@ -100,11 +119,14 @@ const WidgetLayout = () => {
         onLayoutChange={handleModify}
         verticalCompact={true}
         layout={layouts}
-        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+        breakpoints={{
+          xxl: 1400, lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0
+        }}
         preventCollision={false}
-        cols={{ lg: 8, md: 8, sm: 4, xs: 2, xxs: 2 }}
+        cols={{ xxl: 10, lg: 8, md: 8, sm: 4, xs: 2, xxs: 2 }}
         autoSize={true}
         margin={{
+          xxl: [20, 20],
           lg: [20, 20],
           md: [20, 20],
           sm: [20, 20],

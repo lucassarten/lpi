@@ -1,5 +1,7 @@
 package cyan.lpi.auth;
 
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -7,23 +9,31 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import cyan.lpi.model.ApiKey;
 import cyan.lpi.model.ApiKeyAuthenticationToken;
+import cyan.lpi.repository.ApiKeyRepository;
 
 @Component
 public class ApiKeyAuthenticationProvider implements AuthenticationProvider {
+    private static ApiKeyRepository ApiKeyRepository;
+
+    public static void init(ApiKeyRepository ApiKeyRepository) {
+        ApiKeyAuthenticationProvider.ApiKeyRepository = ApiKeyRepository;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) {
         String apiKey = (String) authentication.getPrincipal();
-        System.out.println("API Key: " + apiKey);
         if (ObjectUtils.isEmpty(apiKey)) {
-            System.out.println("No API key in request");
             throw new InsufficientAuthenticationException("No API key in request");
         } else {
-            if ("ValidApiKey".equals(apiKey)) {
-                return new ApiKeyAuthenticationToken(apiKey, true);
+            // get api key from database
+            List<ApiKey> keys = ApiKeyRepository.findBySecretKey(apiKey);
+            for (ApiKey key : keys) {
+                if (key.getSecretKey().equals(apiKey)) {
+                    return new ApiKeyAuthenticationToken(apiKey, true);
+                }
             }
-            System.out.println("API Key is invalid");
             throw new BadCredentialsException("API Key is invalid");
         }
     }

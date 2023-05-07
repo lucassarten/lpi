@@ -17,16 +17,16 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class ApiKey {
 
-    public ApiKey(String api_key, String secret_key) {
-        this.api_key = api_key;
-        this.secret_key = secret_key;
+    public ApiKey(String apiKey, String secretKey) {
+        this.apiKey = apiKey;
+        this.secretKey = secretKey;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String api_key;
+    private String apiKey;
 
-    private String secret_key;
+    private String secretKey;
 }
