@@ -59,7 +59,7 @@ public class LpiController {
             @PathVariable("command") String command,
             @RequestParam Map<String, String> params,
             @RequestParam("file") MultipartFile file) {
-        String response = commandService.run(module, command, params);
+        String response = commandService.run(module, command, params, file);
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
