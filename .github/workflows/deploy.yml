@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: "target/lpi.jar"
-          target: "/opt/lpi/"
+          target: "~/lpi"
       - name: Execute Jar
         uses: appleboy/ssh-action@master
         with:
@@ -32,4 +32,4 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             sudo pkill -f java
-            sudo nohup java -jar /opt/lpi/lpi.jar > /dev/null 2>&1 &
+            sudo nohup java -jar ~/lpi/lpi.jar > /dev/null 2>&1 &
