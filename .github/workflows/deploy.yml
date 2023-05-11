@@ -19,10 +19,11 @@ jobs:
       - name: Copy JAR to VM
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.USERNAME }}@${{ secrets.HOST }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: target/lpi.jar
-          target: /opt/lpi/
+          source: "target/lpi.jar"
+          target: "/opt/lpi/"
       - name: Execute Jar
         uses: appleboy/ssh-action@master
         with:
