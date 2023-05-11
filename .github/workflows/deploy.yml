@@ -23,8 +23,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            mkdir -p /opt/lpi
-            cd /opt/lpi
-            pkill -f java
-            scp -r ${{ github.workspace }}/target/lpi.jar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/lpi/
-            ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "java -jar /opt/lpi/lpi.jar"
+            sudo mkdir -p /opt/lpi
+            sudo cd /opt/lpi
+            sudo pkill -f java
+            sudo scp -r ${{ github.workspace }}/target/lpi.jar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/lpi/
+            sudo ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "java -jar /opt/lpi/lpi.jar"
