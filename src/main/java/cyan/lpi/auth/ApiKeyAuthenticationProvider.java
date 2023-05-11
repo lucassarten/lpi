@@ -2,6 +2,7 @@ package cyan.lpi.auth;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -14,6 +15,7 @@ import cyan.lpi.model.ApiKeyAuthenticationToken;
 import cyan.lpi.repository.ApiKeyRepository;
 
 @Component
+@EnableAutoConfiguration
 public class ApiKeyAuthenticationProvider implements AuthenticationProvider {
     private static ApiKeyRepository ApiKeyRepository;
 
@@ -28,11 +30,16 @@ public class ApiKeyAuthenticationProvider implements AuthenticationProvider {
             throw new InsufficientAuthenticationException("No API key in request");
         } else {
             // get api key from database
-            List<ApiKey> keys = ApiKeyRepository.findBySecretKey(apiKey);
-            for (ApiKey key : keys) {
-                if (key.getSecretKey().equals(apiKey)) {
-                    return new ApiKeyAuthenticationToken(apiKey, true);
+            List<ApiKey> keys;
+            try {
+                keys = ApiKeyRepository.findBySecretKey(apiKey);
+                for (ApiKey key : keys) {
+                    if (key.getSecretKey().equals(apiKey)) {
+                        return new ApiKeyAuthenticationToken(apiKey, true);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             throw new BadCredentialsException("API Key is invalid");
         }

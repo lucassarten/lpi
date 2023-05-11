@@ -8,7 +8,11 @@ import org.reflections.Reflections;
 
 import cyan.lpi.module.Module;
 
-public class Service {
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class CommandService {
     /**
      * Run a command in a module
      * 
@@ -17,7 +21,7 @@ public class Service {
      * @param params
      * @return
      */
-    public String run(String module, String command, Map<String, String> params) {
+    public String run(String module, String command, Map<String, String> params, MultipartFile file) {
         // if no command is specified, run the help command for the module
         if (command.equals("")) {
             command = "help";
@@ -45,7 +49,11 @@ public class Service {
                 }
                 // execute command
                 try {
-                    return (String) commandDef.invoke(moduleDef, params);
+                    if (file == null) {
+                        return (String) commandDef.invoke(moduleDef, params);
+                    } else {
+                        return (String) commandDef.invoke(moduleDef, params, file);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     return "Invalid parameters\n" + moduleDef.help(command);
@@ -58,6 +66,18 @@ public class Service {
             // if the module does not exist, list all modules
             return listModules();
         }
+    }
+
+    /**
+     * Run a command in a module
+     * 
+     * @param service
+     * @param command
+     * @param params
+     * @return
+     */
+    public String run(String module, String command, Map<String, String> params) {
+        return run(module, command, params, null);
     }
 
     /**

@@ -3,7 +3,7 @@ package cyan.lpi.repository;
 import cyan.lpi.auth.ApiKeyAuthenticationProvider;
 import cyan.lpi.module.Auth;
 import cyan.lpi.module.Key;
-import cyan.lpi.service.Service;
+import cyan.lpi.service.CommandService;
 
 import javax.annotation.PostConstruct;
 
@@ -23,8 +23,8 @@ public class RepositoryContextConfiguration {
     private ApiKeyRepository ApiKeyRepository;
 
     @Bean
-    Service Service() {
-        return new Service();
+    CommandService Service() {
+        return new CommandService();
     }
 
     @PostConstruct
