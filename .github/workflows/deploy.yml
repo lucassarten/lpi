@@ -15,7 +15,7 @@ jobs:
       - name: Install Maven
         run: sudo apt-get install -y maven
       - name: Build with Maven
-        run: mvn package
+        run: mvn clean package
       - name: Deploy to VM
         uses: appleboy/ssh-action@master
         with:
@@ -25,5 +25,6 @@ jobs:
           script: |
             mkdir -p /opt/lpi
             cd /opt/lpi
+            pkill -f java
             scp -r ${{ github.workspace }}/target/lpi.jar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/lpi/
             ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "java -jar /opt/lpi/lpi.jar"
