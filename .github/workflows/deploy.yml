@@ -16,15 +16,19 @@ jobs:
         run: sudo apt-get install -y maven
       - name: Build with Maven
         run: mvn clean package
-      - name: Deploy to VM
+      - name: Copy JAR to VM
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.USERNAME }}@${{ secrets.HOST }}
+          key: ${{ secrets.KEY }}
+          source: target/lpi.jar
+          target: /opt/lpi/
+      - name: Execute Jar
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            sudo mkdir -p /opt/lpi
-            sudo cd /opt/lpi
             sudo pkill -f java
-            sudo scp -r ${{ github.workspace }}/target/lpi.jar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/lpi/
-            sudo ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "java -jar /opt/lpi/lpi.jar"
+            sudo nohup java -jar /opt/lpi/lpi.jar > /dev/null 2>&1 &
