@@ -11,7 +11,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: '11'
+          java-version: '17'
       - name: Install Maven
         run: sudo apt-get install -y maven
       - name: Build with Maven
@@ -21,7 +21,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.KEY }}
           script: |
             mkdir -p /opt/lpi
             cd /opt/lpi
