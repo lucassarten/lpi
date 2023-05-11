@@ -16,7 +16,7 @@ public final class Files implements Module {
     @Autowired
     static FileService fileService;
 
-    @CommandDef(desc = "upload a file", params = { "<file>" })
+    @CommandDef(desc = "upload a file", params = {})
     public static String upload(Map<String, String> params, MultipartFile file) throws IOException {
         // Generate a unique ID for the image
         String id = UUID.randomUUID().toString();

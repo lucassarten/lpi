@@ -36,7 +36,12 @@ public class CommandService {
             Module moduleDef = (Module) clazz.getConstructor().newInstance();
             try {
                 // get the command method
-                Method commandDef = clazz.getMethod(command, Map.class);
+                Method commandDef;
+                if (file == null) {
+                    commandDef = clazz.getMethod(command, Map.class);
+                } else {
+                    commandDef = clazz.getMethod(command, Map.class, MultipartFile.class);
+                }
                 // get the commands parameters
                 String[] commandParams = commandDef.getAnnotation(cyan.lpi.module.CommandDef.class).params();
                 // validate parameters
