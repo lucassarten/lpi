@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Maven Build
+        run: |
+          mvn clean package
       - name: Build Docker image
         run: |
           ls
