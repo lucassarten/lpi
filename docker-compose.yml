@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - maria_db
+    environment:
+      spring.datasource.username: ${LPI_MARIA_DB_USERNAME}
+      spring.datasource.password: ${LPI_MARIA_DB_PASSWORD}
+
+  maria_db:
+    container_name: maria_db
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - maria_db:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: ${LPI_MARIA_DB_USERNAME}
+      MARIADB_USER: ${LPI_MARIA_DB_USERNAME}
+      MARIADB_PASSWORD: ${LPI_MARIA_DB_PASSWORD}
+      MARIADB_RANDOM_ROOT_PASSWORD: true
+volumes:
+  maria_db:
