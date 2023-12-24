@@ -17,7 +17,7 @@ jobs:
           mvn clean package
       - name: Build Docker image
         run: |
-          sudo docker build .
+          sudo docker build . -t lpi
           sudo docker save -o lpi.tar lpi
       - name: Copy image to host
         uses: appleboy/scp-action@master
