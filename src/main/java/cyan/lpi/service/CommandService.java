@@ -21,7 +21,8 @@ public class CommandService {
      * @param params
      * @return
      */
-    public String run(String module, String command, Map<String, String> params, MultipartFile file) {
+    public String run(String module, String command, Map<String, String> params, Map<String, String> headers,
+            MultipartFile file) {
         // if no command is specified, run the help command for the module
         if (command.equals("")) {
             command = "help";
@@ -38,9 +39,9 @@ public class CommandService {
                 // get the command method
                 Method commandDef;
                 if (file == null) {
-                    commandDef = clazz.getMethod(command, Map.class);
+                    commandDef = clazz.getMethod(command, Map.class, Map.class);
                 } else {
-                    commandDef = clazz.getMethod(command, Map.class, MultipartFile.class);
+                    commandDef = clazz.getMethod(command, Map.class, Map.class, MultipartFile.class);
                 }
                 // get the commands parameters
                 String[] commandParams = commandDef.getAnnotation(cyan.lpi.module.CommandDef.class).params();
@@ -55,9 +56,9 @@ public class CommandService {
                 // execute command
                 try {
                     if (file == null) {
-                        return (String) commandDef.invoke(moduleDef, params);
+                        return (String) commandDef.invoke(moduleDef, params, headers);
                     } else {
-                        return (String) commandDef.invoke(moduleDef, params, file);
+                        return (String) commandDef.invoke(moduleDef, params, headers, file);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -81,8 +82,8 @@ public class CommandService {
      * @param params
      * @return
      */
-    public String run(String module, String command, Map<String, String> params) {
-        return run(module, command, params, null);
+    public String run(String module, String command, Map<String, String> params, Map<String, String> headers) {
+        return run(module, command, params, headers, null);
     }
 
     /**

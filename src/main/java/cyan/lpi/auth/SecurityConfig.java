@@ -7,7 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
 import java.util.Collections;
@@ -18,25 +18,23 @@ import java.util.Collections;
 */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Autowired
     private ApiKeyAuthenticationProvider apiKeyAuthenticationProvider;
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .authorizeRequests()
-                .antMatchers("/api/**")
-                .authenticated()
-                .and()
-                .authorizeRequests()
-                .anyRequest()
-                .permitAll()
-                .and()
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/", "/auth/login").permitAll())
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/api/**")
+                        .authenticated())
                 .addFilterBefore(
                         new ApiKeyAuthenticationFilter(authenticationManager()),
                         AnonymousAuthenticationFilter.class);
+        return httpSecurity.build();
     }
 
     @Bean

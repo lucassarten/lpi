@@ -29,7 +29,7 @@ public final class Files implements Module {
     }
 
     @CommandDef(desc = "retrieve a file", params = { "<id>" })
-    public static byte[] get(Map<String, String> params) {
+    public static byte[] get(Map<String, String> params, Map<String, String> headers) {
         // Get the ID of the image
         String id = params.get("0");
 

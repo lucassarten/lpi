@@ -20,7 +20,7 @@ public class Date implements Module {
      * @return
      */
     @CommandDef(desc = "convert a date from ISO 8601 to a human readable format in NZT", params = { "<date>" })
-    public static String utc(Map<String, String> params) {
+    public static String utc(Map<String, String> params, Map<String, String> headers) {
         String date = params.get("0");
         // Convert to NZ time
         return Instant.parse(date)
@@ -37,7 +37,7 @@ public class Date implements Module {
      * @return
      */
     @CommandDef(desc = "convert a date from one time zone to another", params = { "<date>", "<from>", "<to>" })
-    public static String convert(Map<String, String> params) {
+    public static String convert(Map<String, String> params, Map<String, String> headers) {
         String date = params.get("0");
         String from = params.get("1");
         String to = params.get("2");
@@ -64,7 +64,7 @@ public class Date implements Module {
      * @return
      */
     @CommandDef(desc = "get the current date and time in NZT")
-    public static String now(Map<String, String> params) {
+    public static String now(Map<String, String> params, Map<String, String> headers) {
         return Instant.now()
                 .atZone(ZoneId.of("Pacific/Auckland"))
                 .format(
@@ -73,7 +73,7 @@ public class Date implements Module {
     }
 
     @CommandDef(desc = "Add time to a date", params = { "<date>", "<addition>", "<unit>" })
-    public static String add(Map<String, String> params) {
+    public static String add(Map<String, String> params, Map<String, String> headers) {
         String date = params.get("0");
         String addition = params.get("1");
         String unit = params.get("2");

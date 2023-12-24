@@ -5,7 +5,7 @@ import cyan.lpi.module.Auth;
 import cyan.lpi.module.Key;
 import cyan.lpi.service.CommandService;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

@@ -32,7 +32,7 @@ public interface Module {
      * @param params
      * @return
      */
-    default String help(Map<String, String> params) {
+    default String help(Map<String, String> params, Map<String, String> headers) {
         return help();
     }
 
