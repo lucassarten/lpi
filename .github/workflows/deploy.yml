@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            echo ${{ secrets.ENV }} > lpi-source/.env
+            sudo echo "${{ secrets.ENV }}" > lpi-source/.env
       - name: Maven Build
         uses: appleboy/ssh-action@master
         with:
