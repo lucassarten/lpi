@@ -1,34 +1,33 @@
 name: Build and Deploy
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-      - name: Install Maven
-        run: sudo apt-get install -y maven
-      - name: Build with Maven
-        run: mvn clean package
-      - name: Copy JAR to VM
+      - name: Build Docker image
+        run: |
+          sudo docker build .
+          sudo docker save -o lpi.tar lpi
+      - name: Copy image to host
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: "target/lpi.jar"
+          source: "lpi.tar"
           target: "~/lpi"
-      - name: Execute Jar
+      - name: Run image on host
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            sudo pkill -f java && nohup sudo java -jar ~/lpi/target/lpi.jar
+            cd ~/lpi
+            sudo docker load -i lpi.tar
+            sudo docker save -o lpi.tar lpi
+            sudo docker stop $(sudo docker ps -a -q)
+            sudo docker run -d -p 80:80 lpi --network="host"
