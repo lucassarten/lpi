@@ -10,6 +10,8 @@ services:
     environment:
       spring.datasource.username: ${LPI_MARIA_DB_USERNAME}
       spring.datasource.password: ${LPI_MARIA_DB_PASSWORD}
+    env_file:
+      - /usr/share/lpi/.env
 
   maria_db:
     container_name: maria_db
@@ -24,5 +26,7 @@ services:
       MARIADB_USER: ${LPI_MARIA_DB_USERNAME}
       MARIADB_PASSWORD: ${LPI_MARIA_DB_PASSWORD}
       MARIADB_RANDOM_ROOT_PASSWORD: "true"
+    env_file:
+      - /usr/share/lpi/.env
 volumes:
   maria_db:
