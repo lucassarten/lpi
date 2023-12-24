@@ -15,6 +15,14 @@ jobs:
           script: |
             sudo rm -rf lpi-source
             git clone ${{ github.server_url }}/${{ github.repository }} lpi-source
+      - name: Setup ENV
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            echo ${{ secrets.ENV }} > lpi-source/.env
       - name: Maven Build
         uses: appleboy/ssh-action@master
         with:
