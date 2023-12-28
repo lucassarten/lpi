@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 
 import cyan.lpi.model.ApiKey;
 import cyan.lpi.repository.ApiKeyRepository;
+import cyan.lpi.repository.AutoInit;
 
 @ModuleDef(desc = "api key management")
 @Service
 public final class Key implements Module {
     private static ApiKeyRepository ApiKeyRepository;
 
+    @AutoInit
     public static void init(ApiKeyRepository ApiKeyRepository) {
         Key.ApiKeyRepository = ApiKeyRepository;
     }
@@ -34,7 +36,9 @@ public final class Key implements Module {
                     (key.getSecretKey().equals(api_key) ? "(in use)" : "")));
         }
         // remove trailing newline
-        sb = sb.deleteCharAt(sb.length() - 1);
+        if (sb.length() > 0) {
+            sb = sb.deleteCharAt(sb.length() - 1);
+        }
         return sb.toString();
     }
 

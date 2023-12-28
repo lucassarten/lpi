@@ -11,13 +11,13 @@ import java.lang.annotation.ElementType;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
 public @interface CommandDef {
-  /**
-   * description of the command
-   */
-  public String desc() default "";
+    /**
+     * description of the command
+     */
+    public String desc() default "";
 
-  /**
-   * parameters of the command
-   */
-  public String[] params() default {};
+    /**
+     * parameters of the command
+     */
+    public String[] params() default {};
 }

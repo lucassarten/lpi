@@ -5,11 +5,13 @@ import java.util.Map;
 
 import cyan.lpi.model.ApiKey;
 import cyan.lpi.repository.ApiKeyRepository;
+import cyan.lpi.repository.AutoInit;
 
 @ModuleDef(desc = "authentication management")
 public class Auth implements Module {
     private static ApiKeyRepository ApiKeyRepository;
 
+    @AutoInit
     public static void init(ApiKeyRepository ApiKeyRepository) {
         Auth.ApiKeyRepository = ApiKeyRepository;
     }

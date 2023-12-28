@@ -3,6 +3,7 @@ package cyan.lpi.repository;
 import cyan.lpi.auth.ApiKeyAuthenticationProvider;
 import cyan.lpi.module.Auth;
 import cyan.lpi.module.Key;
+import cyan.lpi.module.Weather;
 import cyan.lpi.service.CommandService;
 
 import jakarta.annotation.PostConstruct;
@@ -31,6 +32,7 @@ public class RepositoryContextConfiguration {
     public void init() {
         Key.init(ApiKeyRepository);
         Auth.init(ApiKeyRepository);
+        Weather.init(ApiKeyRepository);
         ApiKeyAuthenticationProvider.init(ApiKeyRepository);
     }
 }

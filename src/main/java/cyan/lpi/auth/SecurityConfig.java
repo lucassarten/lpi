@@ -30,11 +30,10 @@ public class SecurityConfig {
                         .requestMatchers("/", "/auth/login").permitAll())
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/**")
-                        .permitAll());
-        // .authenticated())
-        // .addFilterBefore(
-        // new ApiKeyAuthenticationFilter(authenticationManager()),
-        // AnonymousAuthenticationFilter.class);
+                        .authenticated())
+                .addFilterBefore(
+                        new ApiKeyAuthenticationFilter(authenticationManager()),
+                        AnonymousAuthenticationFilter.class);
         return httpSecurity.build();
     }
 

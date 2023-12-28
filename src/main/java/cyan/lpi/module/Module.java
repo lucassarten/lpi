@@ -45,7 +45,7 @@ public interface Module {
     public default String help(String commandName) {
         try {
             // get the commands method
-            Method command = this.getClass().getMethod(commandName, Map.class);
+            Method command = this.getClass().getMethod(commandName, Map.class, Map.class);
             // get the @CommandDef annotation
             CommandDef commandDef = command.getAnnotation(CommandDef.class);
             String params = commandDef.params().length == 0 ? ""

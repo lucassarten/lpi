@@ -65,6 +65,7 @@ public class CommandService {
                     return "Invalid parameters\n" + moduleDef.help(command);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 // if the command does not exist, run the help command
                 return moduleDef.help();
             }
