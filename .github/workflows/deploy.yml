@@ -40,5 +40,5 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd lpi-source
-            sudo docker-compose down -v
+            sudo docker-compose down -v api_service
             sudo docker-compose up -d
