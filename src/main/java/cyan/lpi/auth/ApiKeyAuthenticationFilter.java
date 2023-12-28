@@ -33,7 +33,6 @@ public class ApiKeyAuthenticationFilter extends AbstractAuthenticationProcessing
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                    System.out.println("Cookie: " + cookie.getName() + " = " + cookie.getValue());
                     if (cookie.getName().equals("x-api-key")) {
                         apiKeyOptional = Optional.ofNullable(cookie.getValue());
                     }
