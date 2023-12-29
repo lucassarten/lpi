@@ -65,7 +65,10 @@ public class Weather implements Module {
             BigDecimal feels_like = jsonObject.getJSONObject("main").getBigDecimal("feels_like");
             BigDecimal humidity = jsonObject.getJSONObject("main").getBigDecimal("humidity");
             BigDecimal wind_speed = jsonObject.getJSONObject("wind").getBigDecimal("speed");
-            BigDecimal rain_1h = jsonObject.getJSONObject("rain").getBigDecimal("1h");
+            BigDecimal rain_1h = new BigDecimal(0);
+            if (!jsonObject.isNull("rain")) {
+                rain_1h = jsonObject.getJSONObject("rain").getBigDecimal("1h");
+            }
             // Convert temp from kelvin to celsius
             double temp_c = temp.doubleValue() - 273.15;
             double feels_like_c = feels_like.doubleValue() - 273.15;
