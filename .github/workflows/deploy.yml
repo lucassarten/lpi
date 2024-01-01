@@ -8,7 +8,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Setup ENV
+        run: |
+          sudo echo "${{ secrets.ENV }}" > .env
+      - name: Maven Build
+        run: |
+          mvn clean package
+      # ---------- HOST ----------
+      - name: Checkout (host)
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -17,7 +26,7 @@ jobs:
           script: |
             sudo rm -rf lpi-source
             git clone ${{ github.server_url }}/${{ github.repository }} lpi-source
-      - name: Setup ENV
+      - name: Setup ENV (host)
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -25,16 +34,15 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             sudo echo "${{ secrets.ENV }}" > lpi-source/.env
-      - name: Maven Build
-        uses: appleboy/ssh-action@master
+      - name: Copy Artifact (host)
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: |
-            cd lpi-source
-            mvn clean package
-      - name: Deploy
+          source: "target/lpi.jar"
+          target: lpi-source/target/lpi.jar
+      - name: Deploy (host)
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
