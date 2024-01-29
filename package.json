@@ -14,7 +14,7 @@
     "react-open-weather-widget": "^1.1.0",
     "react-scripts": "5.0.1",
     "style-loader": "^3.3.4",
-    "web-vitals": "^3.5.1"
+    "web-vitals": "^3.5.2"
   },
   "scripts": {
     "watch": "webpack --watch -d --output ./target/classes/static/built/bundle.js",
