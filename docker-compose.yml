@@ -4,7 +4,7 @@ services:
     build: .
     restart: always
     ports:
-      - 8080:8080
+      - 2066:2066
     depends_on:
       - maria_db
     environment:
